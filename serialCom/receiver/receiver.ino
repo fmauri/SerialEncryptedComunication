@@ -7,6 +7,7 @@ void setup() {
 
 void loop() {
   Serial.readBytes(mystr,5); //Read the serial data and store in var
+  Serial.print("\n");
   Serial.print(mystr);
   delay(1000);
 }
