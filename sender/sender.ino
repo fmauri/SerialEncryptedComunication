@@ -25,6 +25,7 @@ void serialEvent(){
 }
 void loop() {
   Serial.write(key, 5);
+  delay(3000);
   for(int i=0; i <5;i++){
     cipher[i] = key[i] ^ msg[i];
     negation = ~cipher[i];
@@ -33,7 +34,7 @@ void loop() {
     irsend.sendNEC(conc, 32);
     delay(1000);
   }
-  irsend.sendNEC(start, 32);
   delay(5000);
+  irsend.sendNEC(start, 32);
 }
 
