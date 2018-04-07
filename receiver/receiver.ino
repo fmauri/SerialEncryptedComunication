@@ -13,11 +13,12 @@ void setup()
   irrecv.enableIRIn(); // Start the receiver
 }
 int iteration = 0;
-char msg[5]; // Received via IR (wireless)
-char key[5]; // Received via UART (wires)
+char msg[6]; // Received via IR (wireless)
+char key[6]; // Received via UART (wires)
 void loop()
 {
-  Serial.readBytes(key,5); //Receive KEY from UART
+  Serial.readBytes(key,6); //Receive KEY from UART
+  Serial.println(key);
   if (irrecv.decode(&results)) 
   {
     int i = 0;
@@ -34,19 +35,14 @@ void loop()
           if(cmd == ~revCmd && prevCmd != cmd) {
             prevCmd = cmd;
             msg[iteration] = cmd ^ key[iteration];
-            Serial.print(msg[iteration]);
-            iteration = (iteration + 1); 
+            iteration = (iteration + 1);
           } else if (cmd == revCmd) {
-            iteration = 0;
-            Serial.println("");
+            Serial.println(msg);
+            iteration = 0; // Message will start again
           } else { }
-        } else {
-          Serial.println("SOMETHING VERY STRANGE");
-        }
+        } else { }
       }
-         
     irrecv.resume(); // Receive the next value }
-  
   }
 }
 
