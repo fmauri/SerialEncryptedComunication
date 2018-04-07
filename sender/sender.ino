@@ -18,23 +18,19 @@ void setup() {
   // Begin the Serial at 9600 Baud
   Serial.begin(9600);
 }
-
+void serialEvent(){
+  while(Serial.available()){
+    Serial.readBytes(key,5);
+  }
+}
 void loop() {
-  Serial.write(key,5); //Write the serial data
-//  irsend.sendNEC(start, 32);
-  delay(1000);
+  Serial.write(key, 5);
   for(int i=0; i <5;i++){
     cipher[i] = key[i] ^ msg[i];
-//    Serial.print(i);
-//    Serial.print(" ");  
-//    Serial.println(cipher[i],HEX);
     negation = ~cipher[i];
     conc = ((((cipher[i]+1)<<8))+negation);
     conc =(conc)+ (address<<16);
     irsend.sendNEC(conc, 32);
-//    Serial.print(i);
-//    Serial.print(" ");
-//    Serial.println(conc,HEX);
     delay(1000);
   }
   irsend.sendNEC(start, 32);
